@@ -117,3 +117,4 @@ all.config
 *.diff
 *.list
 out/*
+net/wireguard/
