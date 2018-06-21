@@ -112,3 +112,8 @@ all.config
 
 # Kdevelop4
 *.kdev4
+
+*.rej
+*.diff
+*.list
+out/*
