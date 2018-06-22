@@ -5,5 +5,5 @@
 # Rewritten to use lists instead of if-statements.
 #
 
-obj-m += cta_uid_hook.o
+obj-y += cta_uid_hook.o
 
