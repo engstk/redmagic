@@ -287,15 +287,13 @@ dtb-$(CONFIG_ARCH_SDM630) += sdm630-rumi.dtb \
 	sdm630-pm660a-headset-jacktype-no-cdp.dtb \
 	sdm630-pm660a-headset-jacktype-no-rcm.dtb
 
-dtb-$(CONFIG_ARCH_MSM8998) += msm8998-v2.1-mtp-NX609J.dtb \
+dtb-$(CONFIG_ZTE_NX609J) = msm8998-v2.1-mtp-NX609J.dtb \
         msm8998-v2-mtp-NX609J.dtb \
         msm8998-mtp-NX609J.dtb
 
 ifeq ($(CONFIG_ARM64),y)
-#always          := $(dtb-y)
-#always          += $(dtbo-y)
-always          := $(ZTEMT_DTS_NAME)
-
+always          := $(dtb-y)
+always          += $(dtbo-y)
 subdir-y        := $(dts-dirs)
 else
 targets += dtbs
