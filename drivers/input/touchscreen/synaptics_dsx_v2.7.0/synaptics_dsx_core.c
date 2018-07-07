@@ -129,6 +129,11 @@ unsigned int nubia_wakeup_gesture=0;
 #endif
 
 #ifdef NUBIA_TOUCH_SYNAPTICS
+#define KEY_DOUBLE_TAP KEY_F10
+#define KEY_GESTURE_CIRCLE 250
+#define KEY_GESTURE_SWIPE 251
+#define KEY_GESTURE_ARROW 252
+
 static struct synaptics_rmi4_data *g_rmi4_data;
 #endif
 
@@ -1377,26 +1382,27 @@ static int synaptics_rmi4_f12_abs_report(struct synaptics_rmi4_data *rmi4_data,
 			return 0;
 
 		gesture_type = rmi4_data->gesture_detection[0];
-		// double tap = 3
-		// long swipe = 7
-		// circle = 8
-		// A+V+>+< = 10
-		if (gesture_type == 3)
-			keyCode = KEY_F10;
-		else if (gesture_type == 7)
-			keyCode = KEY_F11;
-		else if (gesture_type == 8)
-			keyCode = KEY_F12;
-		else if (gesture_type == 10)
-			keyCode = KEY_F13;
 
 		if (gesture_type && gesture_type != F12_UDG_DETECT) {
 #ifdef NUBIA_TOUCH_SYNAPTICS
+			// double tap = 3
+			// long swipe = 7
+			// circle = 8
+			// A+V+>+< = 10
+			if (gesture_type == 3)
+				keyCode = KEY_DOUBLE_TAP;
+			else if (gesture_type == 7)
+				keyCode = KEY_GESTURE_SWIPE;
+			else if (gesture_type == 8)
+				keyCode = KEY_GESTURE_CIRCLE;
+			else if (gesture_type == 10)
+				keyCode = KEY_GESTURE_ARROW;
+
 			input_report_key(rmi4_data->input_dev, keyCode, 1);
 			input_sync(rmi4_data->input_dev);
 			input_report_key(rmi4_data->input_dev, keyCode, 0);
 			input_sync(rmi4_data->input_dev);
-			pr_info("%s synaptics wakeup gesture detected %d!\n", __func__, gesture_type);
+			pr_info("%s synaptics wakeup gesture detected %d -> %d!\n", __func__, gesture_type, keyCode);
 #else
 			input_report_key(rmi4_data->input_dev, KEY_WAKEUP, 1);
 			input_sync(rmi4_data->input_dev);
@@ -3597,6 +3603,10 @@ static void synaptics_rmi4_set_params(struct synaptics_rmi4_data *rmi4_data)
 #ifdef NUBIA_TOUCH_SYNAPTICS
 	input_set_capability(rmi4_data->input_dev, EV_KEY, KEY_F9);
 	input_set_capability(rmi4_data->input_dev, EV_KEY, KEY_F10);
+	//input_set_capability(rmi4_data->input_dev, EV_KEY, KEY_DOUBLE_TAP);
+	input_set_capability(rmi4_data->input_dev, EV_KEY, KEY_GESTURE_CIRCLE);
+	input_set_capability(rmi4_data->input_dev, EV_KEY, KEY_GESTURE_SWIPE);
+	input_set_capability(rmi4_data->input_dev, EV_KEY, KEY_GESTURE_ARROW);
 #endif
 
 	return;
