@@ -44,6 +44,12 @@ static void remove_safetynet_flags(char *cmd)
 	remove_flag(cmd, "androidboot.secboot=");
 	remove_flag(cmd, "androidboot.verifiedbootstate=");
 	remove_flag(cmd, "androidboot.veritymode=");
+	/* nubia flags */
+	remove_flag(cmd, "nubia.isroot=");
+	remove_flag(cmd, "nubia.fastbootrootcount=");
+	remove_flag(cmd, "nubia.systemisroot=");
+	remove_flag(cmd, "nubia.bootisroot=");
+	remove_flag(cmd, "nubia.deviceisroot=");
 }
 
 static int __init proc_cmdline_init(void)
